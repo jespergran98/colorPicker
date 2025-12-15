@@ -4,146 +4,109 @@
   gap: 1.25rem;
 }
 
-/* Saturation/Lightness Picker */
-.sb-picker {
+.picker {
   width: 100%;
   height: 200px;
-  border-radius: var(--radius-md);
+  border-radius: 0.75rem;
   position: relative;
   cursor: crosshair;
   border: 1px solid var(--color-border);
-  overflow: hidden;
 }
 
-.sb-picker__cursor {
+.cursor {
   position: absolute;
-  width: 20px;
-  height: 20px;
-  border: 3px solid white;
+  width: 16px;
+  height: 16px;
+  border: 2px solid white;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.4);
-}
-
-/* Slider Groups */
-.slider-group {
-  display: flex;
-  flex-direction: column;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
 
 .slider-container {
-  display: flex;
-  align-items: center;
+  position: relative;
+  height: 32px;
 }
 
 .slider-track {
   position: relative;
-  flex: 1;
   height: 8px;
   border-radius: 999px;
-  overflow: visible;
-  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-.slider-gradient {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  pointer-events: none;
-}
-
-.slider {
+.slider-track input {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  -webkit-appearance: none;
-  appearance: none;
-  background: transparent;
+  opacity: 0;
   cursor: pointer;
   margin: 0;
-  opacity: 0;
 }
 
-.slider-handle {
+.handle {
   position: absolute;
   top: 50%;
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  border: 3px solid var(--color-text);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  border: 2px solid white;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  transition: transform var(--transition-fast);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
 }
 
-.slider:active + .slider-gradient + .slider-handle {
-  transform: translate(-50%, -50%) scale(1.15);
-}
-
-/* Checkerboard pattern for transparency */
 .checkerboard {
-  background-color: var(--color-surface);
-  background-image: 
-    linear-gradient(45deg, #2a2a2a 25%, transparent 25%),
-    linear-gradient(-45deg, #2a2a2a 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, #2a2a2a 75%),
-    linear-gradient(-45deg, transparent 75%, #2a2a2a 75%);
-  background-size: 8px 8px;
-  background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+  background-size: 8px 8px !important;
 }
 
-/* Color Preview */
-.color-preview {
+.preview {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md);
-  background-color: var(--color-surface-elevated);
-  border-radius: var(--radius-md);
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-surface-elevated);
+  border-radius: 0.75rem;
   border: 1px solid var(--color-border);
 }
 
-.color-preview__swatch {
+.swatch {
   width: 48px;
   height: 48px;
-  border-radius: var(--radius-sm);
+  border-radius: 0.5rem;
   border: 2px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
   flex-shrink: 0;
 }
 
-.color-preview__hex {
+.hex {
   font-family: 'Courier New', monospace;
   font-size: 1.125rem;
-  color: var(--color-text);
   font-weight: 500;
-  background-color: var(--color-bg);
+  background: var(--color-bg);
   padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
+  border-radius: 0.5rem;
   flex: 1;
 }
 
-/* Recent Colors */
-.recent-colors {
+.recent {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: var(--spacing-sm);
+  gap: 0.5rem;
 }
 
-.recent-color-swatch {
-  width: 100%;
+.recent-swatch {
   aspect-ratio: 1;
-  border-radius: var(--radius-sm);
+  border-radius: 0.5rem;
   border: 2px solid var(--color-border);
   cursor: pointer;
-  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  transition: transform 150ms ease, border-color 150ms ease;
 }
 
-.recent-color-swatch:hover {
+.recent-swatch:hover {
   transform: scale(1.1);
   border-color: var(--color-text);
 }

@@ -4,7 +4,7 @@ import Canvas from './components/Canvas/Canvas'
 import './App.css'
 
 function App() {
-  const [selectedColor, setSelectedColor] = useState('#3b82f6')
+  const [color, setColor] = useState('#3b82f6')
 
   return (
     <div className="app">
@@ -14,14 +14,11 @@ function App() {
           <p className="sidebar-subtitle">Pick a color and start drawing</p>
         </div>
         <div className="sidebar-content">
-          <ColorPicker 
-            color={selectedColor}
-            onChange={setSelectedColor}
-          />
+          <ColorPicker color={color} onChange={setColor} />
         </div>
       </aside>
       <main className="main">
-        <Canvas color={selectedColor} />
+        <Canvas color={color} />
       </main>
     </div>
   )

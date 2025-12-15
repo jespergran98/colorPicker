@@ -13,23 +13,20 @@ const Canvas = ({ color }) => {
     const context = canvas.getContext('2d')
     setCtx(context)
 
-    const resizeCanvas = () => {
+    const resize = () => {
       const rect = canvas.getBoundingClientRect()
       canvas.width = rect.width
       canvas.height = rect.height
-      
-      // Fill with dark background
       context.fillStyle = '#1a1a1a'
       context.fillRect(0, 0, canvas.width, canvas.height)
     }
 
-    resizeCanvas()
-    window.addEventListener('resize', resizeCanvas)
-
-    return () => window.removeEventListener('resize', resizeCanvas)
+    resize()
+    window.addEventListener('resize', resize)
+    return () => window.removeEventListener('resize', resize)
   }, [])
 
-  const getCoordinates = (e) => {
+  const getPos = (e) => {
     const rect = canvasRef.current.getBoundingClientRect()
     return {
       x: e.clientX - rect.left,
@@ -37,11 +34,10 @@ const Canvas = ({ color }) => {
     }
   }
 
-  const startDrawing = (e) => {
+  const start = (e) => {
     if (!ctx) return
     setIsDrawing(true)
-    const { x, y } = getCoordinates(e)
-    
+    const { x, y } = getPos(e)
     ctx.beginPath()
     ctx.moveTo(x, y)
     ctx.strokeStyle = color
@@ -52,25 +48,22 @@ const Canvas = ({ color }) => {
 
   const draw = (e) => {
     if (!isDrawing || !ctx) return
-    const { x, y } = getCoordinates(e)
-    
+    const { x, y } = getPos(e)
     ctx.lineTo(x, y)
     ctx.stroke()
   }
 
-  const stopDrawing = () => {
-    setIsDrawing(false)
-  }
+  const stop = () => setIsDrawing(false)
 
   return (
     <div className="canvas-container">
       <canvas
         ref={canvasRef}
         className="canvas"
-        onMouseDown={startDrawing}
+        onMouseDown={start}
         onMouseMove={draw}
-        onMouseUp={stopDrawing}
-        onMouseLeave={stopDrawing}
+        onMouseUp={stop}
+        onMouseLeave={stop}
       />
     </div>
   )
