@@ -10,7 +10,7 @@ function App() {
     <div className="app">
       <aside className="sidebar">
         <div className="sidebar-header">
-          <h1 className="sidebar-title">Color Studio</h1>
+          <h1 className="sidebar-title">Color Picker</h1>
           <p className="sidebar-subtitle">Pick a color and start drawing</p>
         </div>
         <div className="sidebar-content">

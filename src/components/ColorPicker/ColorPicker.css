@@ -1,61 +1,14 @@
 .color-picker {
   display: flex;
   flex-direction: column;
-  background-color: var(--color-surface-elevated);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  padding: var(--spacing-lg);
-  gap: var(--spacing-lg);
-}
-
-/* Color Preview */
-.color-preview {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--spacing-md);
-  background-color: var(--color-surface);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
-}
-
-.color-preview__left {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.color-preview__swatch {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  border: 2px solid var(--color-border);
-  box-shadow: var(--shadow-sm);
-}
-
-.color-preview__label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--color-text-secondary);
-  font-weight: 600;
-}
-
-.color-preview__value {
-  font-family: 'Courier New', monospace;
-  font-size: 0.875rem;
-  color: var(--color-text);
-  font-weight: 500;
-  padding: 0.25rem 0.5rem;
-  background-color: var(--color-bg);
-  border-radius: 0.25rem;
+  gap: 1.25rem;
 }
 
 /* Saturation/Lightness Picker */
 .sb-picker {
   width: 100%;
-  height: 180px;
-  border-radius: var(--radius-sm);
+  height: 200px;
+  border-radius: var(--radius-md);
   position: relative;
   cursor: crosshair;
   border: 1px solid var(--color-border);
@@ -64,9 +17,9 @@
 
 .sb-picker__cursor {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  border: 2px solid white;
+  width: 20px;
+  height: 20px;
+  border: 3px solid white;
   border-radius: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -77,27 +30,17 @@
 .slider-group {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.slider-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
 .slider-container {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
 }
 
 .slider-track {
   position: relative;
   flex: 1;
-  height: 6px;
+  height: 8px;
   border-radius: 999px;
   overflow: visible;
   background-color: var(--color-surface);
@@ -127,10 +70,10 @@
 .slider-handle {
   position: absolute;
   top: 50%;
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  border: 2px solid var(--color-text);
+  border: 3px solid var(--color-text);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
   transform: translate(-50%, -50%);
   pointer-events: none;
@@ -139,15 +82,6 @@
 
 .slider:active + .slider-gradient + .slider-handle {
   transform: translate(-50%, -50%) scale(1.15);
-}
-
-.slider-value {
-  font-family: 'Courier New', monospace;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  font-weight: 500;
-  min-width: 36px;
-  text-align: right;
 }
 
 /* Checkerboard pattern for transparency */
@@ -160,4 +94,56 @@
     linear-gradient(-45deg, transparent 75%, #2a2a2a 75%);
   background-size: 8px 8px;
   background-position: 0 0, 0 4px, 4px -4px, -4px 0px;
+}
+
+/* Color Preview */
+.color-preview {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md);
+  background-color: var(--color-surface-elevated);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.color-preview__swatch {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+}
+
+.color-preview__hex {
+  font-family: 'Courier New', monospace;
+  font-size: 1.125rem;
+  color: var(--color-text);
+  font-weight: 500;
+  background-color: var(--color-bg);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  flex: 1;
+}
+
+/* Recent Colors */
+.recent-colors {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--spacing-sm);
+}
+
+.recent-color-swatch {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--color-border);
+  cursor: pointer;
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.recent-color-swatch:hover {
+  transform: scale(1.1);
+  border-color: var(--color-text);
 }
