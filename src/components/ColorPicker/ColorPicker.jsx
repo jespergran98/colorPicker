@@ -29,7 +29,7 @@ const ColorPicker = ({ color, onChange }) => {
   const addToRecent = () => {
     const [r, g, b] = hsbToRgb(hue, saturation, brightness)
     const hex = rgbToHex(r, g, b)
-    setRecentColors(prev => [hex, ...prev.filter(c => c !== hex)].slice(0, 12))
+    setRecentColors(prev => [hex, ...prev.filter(c => c !== hex)].slice(0, 11))
   }
 
   useEffect(() => {
@@ -90,6 +90,46 @@ const ColorPicker = ({ color, onChange }) => {
     setBrightness(Math.round(max * 100))
   }
 
+  const renderRecentColors = () => {
+    const rows = []
+    let index = 0
+    
+    // First row: 6 colors
+    if (recentColors.length > 0) {
+      rows.push(
+        <div key="row-0" className="recent-row">
+          {recentColors.slice(0, 6).map((c, i) => (
+            <div
+              key={i}
+              className="recent-swatch"
+              style={{ background: c }}
+              onClick={() => loadRecentColor(c)}
+            />
+          ))}
+        </div>
+      )
+      index = 6
+    }
+    
+    // Second row: 5 colors (centered)
+    if (recentColors.length > 6) {
+      rows.push(
+        <div key="row-1" className="recent-row">
+          {recentColors.slice(6, 11).map((c, i) => (
+            <div
+              key={i + 6}
+              className="recent-swatch"
+              style={{ background: c }}
+              onClick={() => loadRecentColor(c)}
+            />
+          ))}
+        </div>
+      )
+    }
+    
+    return rows
+  }
+
   return (
     <div className="color-picker">
       <div 
@@ -131,8 +171,15 @@ const ColorPicker = ({ color, onChange }) => {
 
       <div className="slider-container">
         <div className="slider-track checkerboard" style={{
-          background: `url("data:image/svg+xml,%3Csvg width='8' height='8' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='4' height='4' fill='%232a2a2a'/%3E%3Crect x='4' y='4' width='4' height='4' fill='%232a2a2a'/%3E%3C/svg%3E"),
-                       linear-gradient(to right, transparent, ${getCurrentColor().replace(/[\d.]+\)$/, '1)')})`
+          backgroundImage: `
+            linear-gradient(45deg, #2a2a2a 25%, transparent 25%),
+            linear-gradient(-45deg, #2a2a2a 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, #2a2a2a 75%),
+            linear-gradient(-45deg, transparent 75%, #2a2a2a 75%),
+            linear-gradient(to right, transparent, ${getCurrentColor().replace(/[\d.]+\)$/, '1)')})
+          `,
+          backgroundSize: '12px 12px, 12px 12px, 12px 12px, 12px 12px, 100% 100%',
+          backgroundPosition: '0 0, 0 6px, 6px -6px, -6px 0px, 0 0'
         }}>
           <input
             type="range"
@@ -156,14 +203,7 @@ const ColorPicker = ({ color, onChange }) => {
 
       {recentColors.length > 0 && (
         <div className="recent">
-          {recentColors.map((c, i) => (
-            <div
-              key={i}
-              className="recent-swatch"
-              style={{ background: c }}
-              onClick={() => loadRecentColor(c)}
-            />
-          ))}
+          {renderRecentColors()}
         </div>
       )}
     </div>
