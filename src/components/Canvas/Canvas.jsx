@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import './Canvas.css'
 
-const Canvas = ({ color }) => {
+const Canvas = () => {
   const canvasRef = useRef(null)
   const [isDrawing, setIsDrawing] = useState(false)
 
@@ -26,12 +26,12 @@ const Canvas = ({ color }) => {
     return () => window.removeEventListener('resize', resizeCanvas)
   }, [])
 
-  const startDrawing = (e) => {
+  const startDrawing = () => {
     setIsDrawing(true)
     // Add drawing logic here
   }
 
-  const draw = (e) => {
+  const draw = () => {
     if (!isDrawing) return
     // Add drawing logic here
   }
