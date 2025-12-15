@@ -1,23 +1,26 @@
 import { useRef, useEffect, useState } from 'react'
 import './Canvas.css'
 
-const Canvas = () => {
+const Canvas = ({ color }) => {
   const canvasRef = useRef(null)
   const [isDrawing, setIsDrawing] = useState(false)
+  const [ctx, setCtx] = useState(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
+    const context = canvas.getContext('2d')
+    setCtx(context)
 
-    // Set canvas size
     const resizeCanvas = () => {
       const rect = canvas.getBoundingClientRect()
-      canvas.width = rect.width * window.devicePixelRatio
-      canvas.height = rect.height * window.devicePixelRatio
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio)
+      canvas.width = rect.width
+      canvas.height = rect.height
+      
+      // Fill with dark background
+      context.fillStyle = '#1a1a1a'
+      context.fillRect(0, 0, canvas.width, canvas.height)
     }
 
     resizeCanvas()
@@ -26,14 +29,33 @@ const Canvas = () => {
     return () => window.removeEventListener('resize', resizeCanvas)
   }, [])
 
-  const startDrawing = () => {
-    setIsDrawing(true)
-    // Add drawing logic here
+  const getCoordinates = (e) => {
+    const rect = canvasRef.current.getBoundingClientRect()
+    return {
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
+    }
   }
 
-  const draw = () => {
-    if (!isDrawing) return
-    // Add drawing logic here
+  const startDrawing = (e) => {
+    if (!ctx) return
+    setIsDrawing(true)
+    const { x, y } = getCoordinates(e)
+    
+    ctx.beginPath()
+    ctx.moveTo(x, y)
+    ctx.strokeStyle = color
+    ctx.lineWidth = 3
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
+  }
+
+  const draw = (e) => {
+    if (!isDrawing || !ctx) return
+    const { x, y } = getCoordinates(e)
+    
+    ctx.lineTo(x, y)
+    ctx.stroke()
   }
 
   const stopDrawing = () => {

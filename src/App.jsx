@@ -9,10 +9,16 @@ function App() {
   return (
     <div className="app">
       <aside className="sidebar">
-        <ColorPicker 
-          color={selectedColor}
-          onChange={setSelectedColor}
-        />
+        <div className="sidebar-header">
+          <h1 className="sidebar-title">Color Studio</h1>
+          <p className="sidebar-subtitle">Pick a color and start drawing</p>
+        </div>
+        <div className="sidebar-content">
+          <ColorPicker 
+            color={selectedColor}
+            onChange={setSelectedColor}
+          />
+        </div>
       </aside>
       <main className="main">
         <Canvas color={selectedColor} />
