@@ -1,17 +1,18 @@
 import { useRef, useEffect, useState } from 'react'
 import './Canvas.css'
 
-const Canvas = ({ color }) => {
+const Canvas = ({ color, onDrawStart }) => {
   const canvasRef = useRef(null)
+  const contextRef = useRef(null)
   const [isDrawing, setIsDrawing] = useState(false)
-  const [ctx, setCtx] = useState(null)
+  const hasDrawnRef = useRef(false)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
     const context = canvas.getContext('2d')
-    setCtx(context)
+    contextRef.current = context
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect()
@@ -35,22 +36,30 @@ const Canvas = ({ color }) => {
   }
 
   const start = (e) => {
+    const ctx = contextRef.current
     if (!ctx) return
     setIsDrawing(true)
+    if (!hasDrawnRef.current) {
+      hasDrawnRef.current = true
+      if (onDrawStart) onDrawStart()
+    }
     const { x, y } = getPos(e)
     ctx.beginPath()
     ctx.moveTo(x, y)
+  }
+
+  const draw = (e) => {
+    const ctx = contextRef.current
+    if (!isDrawing || !ctx) return
+    const { x, y } = getPos(e)
     ctx.strokeStyle = color
     ctx.lineWidth = 3
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
-  }
-
-  const draw = (e) => {
-    if (!isDrawing || !ctx) return
-    const { x, y } = getPos(e)
     ctx.lineTo(x, y)
     ctx.stroke()
+    ctx.beginPath()
+    ctx.moveTo(x, y)
   }
 
   const stop = () => setIsDrawing(false)

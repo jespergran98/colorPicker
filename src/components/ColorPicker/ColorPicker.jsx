@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import './ColorPicker.css'
 
 const ColorPicker = ({ color, onChange }) => {
@@ -21,20 +21,20 @@ const ColorPicker = ({ color, onChange }) => {
   const rgbToHex = (r, g, b) => 
     `#${[r, g, b].map(x => x.toString(16).padStart(2, '0')).join('')}`
 
-  const getCurrentColor = () => {
+  const getCurrentColor = useCallback(() => {
     const [r, g, b] = hsbToRgb(hue, saturation, brightness)
     return alpha === 100 ? rgbToHex(r, g, b) : `rgba(${r}, ${g}, ${b}, ${alpha / 100})`
-  }
+  }, [hue, saturation, brightness, alpha])
 
-  const addToRecent = () => {
+  const addToRecent = useCallback(() => {
     const [r, g, b] = hsbToRgb(hue, saturation, brightness)
     const hex = rgbToHex(r, g, b)
-    setRecentColors(prev => [hex, ...prev.filter(c => c !== hex)].slice(0, 11))
-  }
+    setRecentColors(prev => [hex, ...prev.filter(c => c !== hex)].slice(0, 17))
+  }, [hue, saturation, brightness])
 
   useEffect(() => {
     onChange(getCurrentColor())
-  }, [hue, saturation, brightness, alpha])
+  }, [getCurrentColor, onChange])
 
   const updatePicker = (e) => {
     if (!pickerRef.current) return
@@ -66,7 +66,7 @@ const ColorPicker = ({ color, onChange }) => {
       window.removeEventListener('mousemove', handleMove)
       window.removeEventListener('mouseup', handleUp)
     }
-  }, [isDragging])
+  }, [isDragging, addToRecent])
 
   const loadRecentColor = (hex) => {
     const r = parseInt(hex.slice(1, 3), 16) / 255
@@ -92,7 +92,6 @@ const ColorPicker = ({ color, onChange }) => {
 
   const renderRecentColors = () => {
     const rows = []
-    let index = 0
     
     // First row: 6 colors
     if (recentColors.length > 0) {
@@ -108,7 +107,6 @@ const ColorPicker = ({ color, onChange }) => {
           ))}
         </div>
       )
-      index = 6
     }
     
     // Second row: 5 colors (centered)
@@ -118,6 +116,22 @@ const ColorPicker = ({ color, onChange }) => {
           {recentColors.slice(6, 11).map((c, i) => (
             <div
               key={i + 6}
+              className="recent-swatch"
+              style={{ background: c }}
+              onClick={() => loadRecentColor(c)}
+            />
+          ))}
+        </div>
+      )
+    }
+    
+    // Third row: 6 colors
+    if (recentColors.length > 11) {
+      rows.push(
+        <div key="row-2" className="recent-row">
+          {recentColors.slice(11, 17).map((c, i) => (
+            <div
+              key={i + 11}
               className="recent-swatch"
               style={{ background: c }}
               onClick={() => loadRecentColor(c)}
@@ -170,16 +184,17 @@ const ColorPicker = ({ color, onChange }) => {
       </div>
 
       <div className="slider-container">
-        <div className="slider-track checkerboard" style={{
+        <div className="slider-track" style={{
           backgroundImage: `
+            linear-gradient(to right, transparent, ${getCurrentColor().replace(/[\d.]+\)$/, '1)')}),
             linear-gradient(45deg, #2a2a2a 25%, transparent 25%),
             linear-gradient(-45deg, #2a2a2a 25%, transparent 25%),
             linear-gradient(45deg, transparent 75%, #2a2a2a 75%),
-            linear-gradient(-45deg, transparent 75%, #2a2a2a 75%),
-            linear-gradient(to right, transparent, ${getCurrentColor().replace(/[\d.]+\)$/, '1)')})
+            linear-gradient(-45deg, transparent 75%, #2a2a2a 75%)
           `,
-          backgroundSize: '12px 12px, 12px 12px, 12px 12px, 12px 12px, 100% 100%',
-          backgroundPosition: '0 0, 0 6px, 6px -6px, -6px 0px, 0 0'
+          backgroundSize: '100% 100%, 12px 12px, 12px 12px, 12px 12px, 12px 12px',
+          backgroundPosition: '0 0, 0 0, 0 6px, 6px -6px, -6px 0px',
+          backgroundColor: '#151515'
         }}>
           <input
             type="range"
