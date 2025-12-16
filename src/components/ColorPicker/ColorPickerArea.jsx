@@ -1,11 +1,11 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import './ColorPickerArea.css'
 
 const ColorPickerArea = ({ hue, saturation, brightness, onChange, onChangeComplete }) => {
   const [isDragging, setIsDragging] = useState(false)
   const pickerRef = useRef(null)
 
-  const updatePicker = (e) => {
+  const updatePicker = useCallback((e) => {
     if (!pickerRef.current) return
     const rect = pickerRef.current.getBoundingClientRect()
     const x = Math.max(0, Math.min(e.clientX - rect.left, rect.width))
@@ -15,7 +15,7 @@ const ColorPickerArea = ({ hue, saturation, brightness, onChange, onChangeComple
     const newBrightness = Math.round((1 - y / rect.height) * 100)
     
     onChange({ saturation: newSaturation, brightness: newBrightness })
-  }
+  }, [onChange])
 
   const handleMouseDown = (e) => {
     setIsDragging(true)
@@ -58,7 +58,7 @@ const ColorPickerArea = ({ hue, saturation, brightness, onChange, onChangeComple
       window.removeEventListener('touchmove', handleTouchMove)
       window.removeEventListener('touchend', handleUp)
     }
-  }, [isDragging, onChangeComplete])
+  }, [isDragging, updatePicker, onChangeComplete])
 
   return (
     <div 
