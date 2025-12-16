@@ -17,3 +17,23 @@
   touch-action: none;
   border: 1px solid var(--color-border);
 }
+
+@media (max-width: 768px) {
+  .canvas-container {
+    padding: 1rem;
+  }
+
+  .canvas {
+    border-radius: 0.75rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .canvas-container {
+    padding: 0.75rem;
+  }
+
+  .canvas {
+    border-radius: 0.5rem;
+  }
+}

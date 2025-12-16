@@ -29,9 +29,11 @@ const Canvas = ({ color, onDrawStart }) => {
 
   const getPos = (e) => {
     const rect = canvasRef.current.getBoundingClientRect()
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY
     return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
+      x: clientX - rect.left,
+      y: clientY - rect.top
     }
   }
 
@@ -51,6 +53,7 @@ const Canvas = ({ color, onDrawStart }) => {
   const draw = (e) => {
     const ctx = contextRef.current
     if (!isDrawing || !ctx) return
+    e.preventDefault()
     const { x, y } = getPos(e)
     ctx.strokeStyle = color
     ctx.lineWidth = 3
@@ -73,6 +76,9 @@ const Canvas = ({ color, onDrawStart }) => {
         onMouseMove={draw}
         onMouseUp={stop}
         onMouseLeave={stop}
+        onTouchStart={start}
+        onTouchMove={draw}
+        onTouchEnd={stop}
       />
     </div>
   )

@@ -42,3 +42,43 @@
   height: 100%;
   overflow: hidden;
 }
+
+@media (max-width: 768px) {
+  .app {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--color-border);
+    max-height: 50vh;
+  }
+
+  .sidebar-header {
+    padding: 1.5rem;
+  }
+
+  .sidebar-title {
+    font-size: 1.25rem;
+  }
+
+  .sidebar-content {
+    padding: 1.5rem;
+  }
+
+  .main {
+    height: 50vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-header {
+    padding: 1rem;
+  }
+
+  .sidebar-content {
+    padding: 1rem;
+  }
+}

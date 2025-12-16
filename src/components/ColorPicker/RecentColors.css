@@ -1,0 +1,41 @@
+.recent-colors {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.recent-row {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.recent-swatch {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 3px solid var(--color-border);
+  cursor: pointer;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.recent-swatch:hover {
+  transform: scale(1.15);
+  border-color: var(--color-text);
+}
+
+.recent-swatch:active {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .recent-swatch {
+    width: 40px;
+    height: 40px;
+  }
+
+  .recent-row {
+    gap: 0.5rem;
+  }
+}

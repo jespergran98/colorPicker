@@ -1,0 +1,35 @@
+.color-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: var(--color-surface-elevated);
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+}
+
+.color-swatch {
+  width: 48px;
+  height: 48px;
+  border-radius: 0.5rem;
+  border: 2px solid var(--color-border);
+  flex-shrink: 0;
+}
+
+.color-hex {
+  font-family: 'Courier New', monospace;
+  font-size: 1.125rem;
+  font-weight: 500;
+  background: var(--color-bg);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  flex: 1;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .color-hex {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
